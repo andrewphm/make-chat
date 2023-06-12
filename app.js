@@ -4,14 +4,21 @@ const app = express();
 //Socket.io has to use the http server
 const server = require('http').Server(app);
 
+// Socket.io
+const io = require('socket.io')(server);
+io.on('connection', (socket) => {
+  console.log('🔌 New user connected! 🔌');
+});
+
 //Express View Engine for Handlebars
 const exphbs = require('express-handlebars');
 
+app.use('/public', express.static('public'));
 app.engine('handlebars', exphbs.engine());
 app.set('view engine', 'handlebars');
 
 app.get('/', (req, res) => {
-  res.render('index.handlebars');
+  res.render('home');
 });
 
 server.listen('3000', () => {
